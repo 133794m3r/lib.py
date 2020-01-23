@@ -1,3 +1,4 @@
+from math import *
 '''
 #C conversion doesn't work.
 def b58_fast2(b58):
@@ -78,6 +79,39 @@ def b58_fast(b58):
 	 		
 	print(out)
 '''
+def b58_encode(string,text=True):
+	i=0;j=0;digits=[0]
+	string_len=len(string)
+	digit_len=1;
+	carry=0;
+	alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";	
+	while i < string_len:
+		j=0;
+		while j < digit_len:
+			digits[j] <<=8
+			j+=1
+
+		digits[0]+=ord(string[i])
+		carry=0;
+		j=0;
+		while j < digit_len:
+			digits[j] += carry
+			carry=(digits[j] // 58)
+			digits[j] %= 58
+			j+=1
+		while carry:
+			digits.append(carry % 58)
+			carry = (carry // 58)
+			digit_len+=1
+		i+=1;
+	zeroes=ceil( (string_len * 8 ) / 5.857980995127572) - digit_len
+	while i < zeroes:
+		digits.append(0)
+		i+=1
+
+	return	''.join(map(lambda x: alphabet[x],digits[::-1]))
+			
+
 def b58_decode(string,text=True):
 	alphabet_map={"1":0,"2":1,"3":2,"4":3,"5":4,"6":5,"7":6,"8":7,"9":8,"A":9,"B":10,"C":11,"D":12,"E":13,"F":14,"G":15,"H":16,"J":17,"K":18,"L":19,"M":20,"N":21,"P":22,"Q":23,"R":24,"S":25,"T":26,"U":27,"V":28,"W":29,"X":30,"Y":31,"Z":32,"a":33,"b":34,"c":35,"d":36,"e":37,"f":38,"g":39,"h":40,"i":41,"j":42,"k":43,"m":44,"n":45,"o":46,"p":47,"q":48,"r":49,"s":50,"t":51,"u":52,"v":53,"w":54,"x":55,"y":56,"z":57}
 	alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"

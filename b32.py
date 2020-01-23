@@ -1,5 +1,18 @@
 #!/usr/bin/python3
-#Base32 decoder function utilizing zb32 alphabet.
+"""
+Base32 Encoder/Decoder Module
+By Macarthur Inbody
+License AGPLv3 or Later
+(C) 2020
+Functions \n
+b32_encode; b32_decode
+Both functions take in a string or bytes object and will return a string.
+
+b32_encode will encode any string given to it with zb32 alphabet.
+b32_decode will decode any string encoded with zb32 alphabet into it's original form.
+"""
+
+
 def b32_decode(src):
 	"""b32_decode
 	arguments:
@@ -18,6 +31,10 @@ def b32_decode(src):
 	#our proper length is the difference between the two.
 	orig_len=orig_len - src_len;
 	dest=""
+	
+	#RFC Table
+	#table='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
+	
 	#our table to utilize.
 	table="ybndrfg8ejkmcpqxot1uwisza345h769";
 	byte=0;
@@ -79,12 +96,22 @@ def b32_decode(src):
 	#then I return the destination string.
 	return dest
 	
-#Base32 Encoder function utilizing zb32 alphabet.
+
 def b32_encode(src):
+	"""b32_encode
+	arguments:
+	{string|bytes} src -- The source string to encode.
+	\n
+	This program will encode a string into a b32 encoded string utilizing zb32 alphabet.
+	"""
 	i=0;j=0;a=0;b=0;c=0;d=0;e=0;
 	src_len=len(src);
 	#leftover bytes is the remainder or padding we have to do.
 	leftover_bytes=(src_len % 5)
+	
+	#RFC Table
+	#table='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
+	
 	#our alphabet.
 	table="ybndrfg8ejkmcpqxot1uwisza345h769";
 	padding="="
@@ -146,17 +173,9 @@ def b32_encode(src):
 	elif leftover_bytes == 3: replace_bytes = 3;
 	elif leftover_bytes == 4: replace_bytes = 1;
 	i=0;
-#	dest_len=len(dest)-1;
-	#j-=1;
 
-
-#	while i<replace_bytes:
-#		dest[j]="=";
-#		j-=1
-#		i+=1
-	#if replacem bytes is greater than or equal to 1.
+	#if replaces bytes is greater than or equal to 1.
 	if replace_bytes >=1:
-#		dest=dest.replace('\x00','')
 		#create padding of this many bytes.
 		padding=("=" * replace_bytes)
 		'''
